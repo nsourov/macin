@@ -25,7 +25,7 @@ Everything runs on your Mac. Macin has no account, no tracking and no server.
 ## Build and run
 
 ```sh
-git clone https://github.com/<your-account>/macin.git
+git clone https://github.com/nsourov/macin.git
 cd macin
 ./scripts/build-app.sh
 open build/Macin.app
