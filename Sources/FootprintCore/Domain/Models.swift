@@ -277,6 +277,10 @@ public enum ByteFormatter {
         ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)
     }
 
+    public static func memory(_ bytes: Int64) -> String {
+        ByteCountFormatter.string(fromByteCount: bytes, countStyle: .memory)
+    }
+
     public static func signed(_ bytes: Int64) -> String {
         let base = string(abs(bytes))
         if bytes > 0 { return "+" + base }

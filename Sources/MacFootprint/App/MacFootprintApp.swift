@@ -39,6 +39,7 @@ struct MacFootprintApp: App {
     private let scheduler: ScheduledCleaner
     private let battery: BatteryModel
     private let network: NetworkModel
+    private let assistant: AssistantModel
 
     init() {
         let settings = AppSettings()
@@ -51,6 +52,7 @@ struct MacFootprintApp: App {
         let metrics = MetricsStore()
         self.battery = BatteryModel(store: metrics, monitor: memory)
         self.network = NetworkModel(store: metrics)
+        self.assistant = AssistantModel(model: model, monitor: memory, battery: battery, network: network, apps: apps)
         memory.start()
         scheduler.start()
         battery.start()
@@ -67,6 +69,7 @@ struct MacFootprintApp: App {
                 .environmentObject(scheduler)
                 .environmentObject(battery)
                 .environmentObject(network)
+                .environmentObject(assistant)
                 .frame(minWidth: 820, minHeight: 600)
         }
         .windowToolbarStyle(.unified)

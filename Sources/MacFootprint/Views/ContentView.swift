@@ -19,6 +19,7 @@ struct ContentView: View {
         NavigationSplitView {
             List(selection: selection) {
                 row(.dashboard)
+                row(.assistant)
                 Section("Your Mac") {
                     row(.candidates)
                     row(.memory)
@@ -99,6 +100,7 @@ struct ContentView: View {
     private var detail: some View {
         switch model.selection ?? .dashboard {
         case .dashboard: DashboardView()
+        case .assistant: AssistantView()
         case .candidates: StorageView()
         case .memory: MemoryView()
         case .performance: PerformanceView()

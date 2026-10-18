@@ -5,13 +5,14 @@ import os
 import SwiftUI
 
 enum SidebarItem: String, CaseIterable, Identifiable, Hashable {
-    case dashboard, candidates, memory, performance, applications, battery, network, settings
+    case dashboard, assistant, candidates, memory, performance, applications, battery, network, settings
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
         case .dashboard: return "Home"
+        case .assistant: return "Ask Your Mac"
         case .candidates: return "Storage"
         case .memory: return "Memory"
         case .performance: return "Performance"
@@ -25,6 +26,7 @@ enum SidebarItem: String, CaseIterable, Identifiable, Hashable {
     var hint: String {
         switch self {
         case .dashboard: return "Disk space at a glance"
+        case .assistant: return "Ask questions about your Mac in plain words"
         case .candidates: return "Disk space, cleanup and scan history"
         case .memory: return "What is using memory and whether it is a problem"
         case .performance: return "What is keeping your Mac busy"
@@ -38,6 +40,7 @@ enum SidebarItem: String, CaseIterable, Identifiable, Hashable {
     var symbol: String {
         switch self {
         case .dashboard: return "gauge.with.dots.needle.33percent"
+        case .assistant: return "sparkles"
         case .candidates: return "internaldrive"
         case .memory: return "memorychip"
         case .performance: return "gauge.with.needle"
