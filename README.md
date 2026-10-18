@@ -17,9 +17,12 @@
     <a href="#features">Features</a> ·
     <a href="#ask-your-mac">Ask Your Mac</a> ·
     <a href="#privacy">Privacy</a> ·
+    <a href="#screenshots">Screenshots</a> ·
     <a href="#faq">FAQ</a> ·
     <a href="#contributing">Contributing</a>
   </p>
+
+  <img src="docs/images/home.jpg" alt="Macin home screen" width="900">
 </div>
 
 ---
@@ -86,6 +89,35 @@ Disk space and the health of your Mac at a glance.
 
 ### 📊 Menu bar
 A small live panel with memory, processor, disk, battery and the busiest apps.
+
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="docs/images/storage.jpg" alt="Storage"></td>
+    <td><img src="docs/images/memory.jpg" alt="Memory"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Storage</strong></td>
+    <td align="center"><strong>Memory</strong></td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/performance.jpg" alt="Performance"></td>
+    <td><img src="docs/images/applications.jpg" alt="Applications"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Performance</strong></td>
+    <td align="center"><strong>Applications</strong></td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/battery.jpg" alt="Battery"></td>
+    <td><img src="docs/images/network.jpg" alt="Network"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Battery</strong></td>
+    <td align="center"><strong>Network</strong></td>
+  </tr>
+</table>
 
 ## Ask Your Mac
 
