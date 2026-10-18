@@ -38,8 +38,14 @@ Most Mac tools show you numbers. Macin tells you what they mean.
 
 ## Install
 
+**[Download Macin.dmg](https://github.com/nsourov/macin/releases/latest/download/Macin.dmg)** (Apple Silicon and Intel)
+
+1. Open `Macin.dmg` and drag Macin into Applications.
+2. Open Macin. macOS will say it can't verify the app.
+3. Go to **System Settings → Privacy & Security**, scroll down and click **Open Anyway**.
+
 > [!NOTE]
-> Ready-made downloads are coming soon. For now, build it from source. It takes about a minute.
+> Macin isn't notarized by Apple yet, so macOS asks you to confirm the first time. You can also build it from source:
 
 ```sh
 git clone https://github.com/nsourov/macin.git

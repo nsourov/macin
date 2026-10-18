@@ -5,8 +5,13 @@ cd "$(dirname "$0")/.."
 CONFIG="${1:-release}"
 APP="build/Macin.app"
 
-swift build -c "$CONFIG"
-BIN="$(swift build -c "$CONFIG" --show-bin-path)/MacFootprint"
+ARCH_FLAGS=()
+if [[ -n "${UNIVERSAL:-}" ]]; then
+    ARCH_FLAGS=(--arch arm64 --arch x86_64)
+fi
+
+swift build -c "$CONFIG" "${ARCH_FLAGS[@]}"
+BIN="$(swift build -c "$CONFIG" "${ARCH_FLAGS[@]}" --show-bin-path)/MacFootprint"
 
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
