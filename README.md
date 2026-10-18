@@ -1,8 +1,8 @@
 <div align="center">
   <img src="docs/images/icon.png" width="128" height="128" alt="Macin icon">
   <h1>Macin</h1>
-  <p><strong>Understand your Mac in plain words.</strong></p>
-  <p>Storage, memory, performance, apps, battery and network in one native app,<br>plus an AI assistant that checks your Mac before it answers.</p>
+  <p><strong>System intelligence for your Mac.</strong></p>
+  <p>Macin watches storage, memory, performance, apps, battery and network, explains what it finds,<br>and answers your questions with an AI that checks your Mac before it speaks.</p>
 
   <p>
     <img src="https://img.shields.io/badge/macOS-14%2B-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS 14+">
