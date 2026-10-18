@@ -88,7 +88,11 @@ Disk space and the health of your Mac at a glance.
 - Step-by-step internet check that shows where a problem is
 
 ### 📊 Menu bar
-A small live panel with memory, processor, disk, battery and the busiest apps.
+A small live panel with memory, processor, disk, battery and the busiest apps, one click away.
+
+<p align="center">
+  <img src="docs/images/menubar.jpg" alt="Macin menu bar panel" width="380">
+</p>
 
 ## Screenshots
 
