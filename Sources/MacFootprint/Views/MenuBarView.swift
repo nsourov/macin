@@ -47,7 +47,10 @@ struct MenuBarView: View {
             HStack {
                 Button { open(nil) } label: { Label("Open Macin", systemImage: "macwindow") }
                 Spacer()
-                Button("Quit") { NSApp.terminate(nil) }
+                Button("Quit Macin") {
+                    AppDelegate.allowQuit = true
+                    NSApp.terminate(nil)
+                }
             }
             .buttonStyle(.borderless)
             .font(.callout)

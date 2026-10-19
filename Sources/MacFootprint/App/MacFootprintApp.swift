@@ -3,13 +3,71 @@ import FootprintCore
 import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    static var allowQuit = false
+    static var openMain: (() -> Void)?
+
+    private var keepsRunning: Bool {
+        UserDefaults.standard.object(forKey: AppSettings.Keys.menuBar) as? Bool ?? true
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
+
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(windowOpened(_:)), name: NSWindow.didBecomeKeyNotification, object: nil)
+        center.addObserver(self, selector: #selector(windowClosed(_:)), name: NSWindow.willCloseNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(powerOff), name: NSWorkspace.willPowerOffNotification, object: nil)
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         false
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        guard keepsRunning, !Self.allowQuit else { return .terminateNow }
+        for window in NSApp.windows where isAppWindow(window) {
+            window.close()
+        }
+        moveToMenuBar()
+        return .terminateCancel
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !NSApp.windows.contains(where: { $0.isVisible && isAppWindow($0) }), let openMain = Self.openMain {
+            openMain()
+            NSApp.activate(ignoringOtherApps: true)
+            return false
+        }
+        return true
+    }
+
+    @objc private func powerOff() {
+        Self.allowQuit = true
+    }
+
+    @objc private func windowOpened(_ note: Notification) {
+        guard let window = note.object as? NSWindow, isAppWindow(window), NSApp.activationPolicy() != .regular else { return }
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    @objc private func windowClosed(_ note: Notification) {
+        guard let closing = note.object as? NSWindow, isAppWindow(closing), keepsRunning else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if !NSApp.windows.contains(where: { $0 !== closing && $0.isVisible && self.isAppWindow($0) }) {
+                self.moveToMenuBar()
+            }
+        }
+    }
+
+    private func moveToMenuBar() {
+        NSApp.setActivationPolicy(.accessory)
+    }
+
+    private func isAppWindow(_ window: NSWindow) -> Bool {
+        !(window is NSPanel) && window.level == .normal && window.styleMask.contains(.titled) && window.canBecomeMain
     }
 }
 

@@ -64,10 +64,12 @@ enum TrayIcon {
 
 struct TrayLabel: View {
     @ObservedObject var memory: SystemMonitor
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         Image(nsImage: TrayIcon.image(for: worst))
             .accessibilityLabel(worst == .normal || worst == .unknown ? "Macin" : "Macin needs attention")
+            .onAppear { AppDelegate.openMain = { openWindow(id: "main") } }
     }
 
     private var worst: MemoryPressureState {

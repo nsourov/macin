@@ -56,7 +56,7 @@ struct SettingsPage: View {
     private var generalCard: some View {
         VStack(alignment: .leading, spacing: 14) {
             sectionTitle("General", symbol: "gearshape.fill", color: Palette.slate)
-            switchRow("Show in menu bar", detail: "See memory and disk at a glance from the menu bar.", isOn: $settings.showMenuBar)
+            switchRow("Show in menu bar", detail: "See memory and disk at a glance. Closing Macin keeps it running here.", isOn: $settings.showMenuBar)
             Divider()
             switchRow("Open at login", detail: "Start Macin when you log in to your Mac.", isOn: Binding(get: { settings.launchAtLogin }, set: { settings.launchAtLogin = $0 }))
             if let error = settings.launchAtLoginError {
