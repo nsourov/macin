@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SettingsPage: View {
     @EnvironmentObject private var settings: AppSettings
+    @EnvironmentObject private var updater: Updater
 
     var body: some View {
         ScrollView {
@@ -11,6 +12,7 @@ struct SettingsPage: View {
                 appearanceCard
                 cleanupCard
                 generalCard
+                updatesCard
             }
             .padding(24)
             .frame(maxWidth: 800)
@@ -64,6 +66,49 @@ struct SettingsPage: View {
             }
         }
         .card(padding: 20)
+    }
+
+    private var updatesCard: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            sectionTitle("Updates", symbol: "arrow.down.circle.fill", color: Palette.teal)
+            switchRow("Update automatically",
+                      detail: "Macin checks for a new version once a day and downloads it. You choose when to restart.",
+                      isOn: $settings.autoUpdate)
+            Divider()
+            HStack(alignment: .center, spacing: 16) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Version \(updater.currentVersion)").font(.callout.weight(.medium))
+                    Text(updateStatus).font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 12)
+                if case .ready = updater.state {
+                    Button("Restart to Update") { updater.installAndRestart() }
+                        .buttonStyle(.borderedProminent)
+                } else if updater.isBusy {
+                    ProgressView().controlSize(.small)
+                } else {
+                    Button("Check Now") { Task { await updater.check(.settings) } }
+                        .disabled(!updater.canInstall)
+                }
+            }
+        }
+        .card(padding: 20)
+    }
+
+    private var updateStatus: String {
+        switch updater.state {
+        case .checking: return "Checking for updates…"
+        case .upToDate: return "You have the newest version."
+        case .downloading(let version): return "Downloading version \(version)…"
+        case .ready(let version): return "Version \(version) is ready. Restart Macin to finish."
+        case .installing: return "Installing…"
+        case .failed(let message): return message
+        case .idle:
+            guard updater.canInstall else { return "Updates work only in the installed Macin app." }
+            guard let last = settings.lastUpdateCheck else { return "Not checked yet." }
+            return "Last checked \(last.formatted(date: .abbreviated, time: .shortened))."
+        }
     }
 
     private func switchRow(_ title: String, detail: String, isOn: Binding<Bool>) -> some View {

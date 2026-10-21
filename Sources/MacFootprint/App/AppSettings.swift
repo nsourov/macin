@@ -47,6 +47,8 @@ final class AppSettings: ObservableObject {
     @Published var cleanupScheduleMode: ScheduledCleanupMode { didSet { defaults.set(cleanupScheduleMode.rawValue, forKey: Keys.cleanupScheduleMode) } }
     @Published var lastScheduledCleanup: Date? { didSet { defaults.set(lastScheduledCleanup, forKey: Keys.lastScheduledCleanup) } }
     @Published var lastScheduledSummary: String? { didSet { defaults.set(lastScheduledSummary, forKey: Keys.lastScheduledSummary) } }
+    @Published var autoUpdate: Bool { didSet { defaults.set(autoUpdate, forKey: Keys.autoUpdate) } }
+    @Published var lastUpdateCheck: Date? { didSet { defaults.set(lastUpdateCheck, forKey: Keys.lastUpdateCheck) } }
     @Published var launchAtLoginError: String?
 
     enum Keys {
@@ -63,6 +65,8 @@ final class AppSettings: ObservableObject {
         static let cleanupScheduleMode = "cleanupScheduleMode"
         static let lastScheduledCleanup = "lastScheduledCleanup"
         static let lastScheduledSummary = "lastScheduledSummary"
+        static let autoUpdate = "autoUpdate"
+        static let lastUpdateCheck = "lastUpdateCheck"
     }
 
     static var standardRoots: [String] { [PathTools.home.path, "/Applications"] }
@@ -82,6 +86,8 @@ final class AppSettings: ObservableObject {
         cleanupScheduleMode = defaults.string(forKey: Keys.cleanupScheduleMode).flatMap(ScheduledCleanupMode.init(rawValue:)) ?? .ask
         lastScheduledCleanup = defaults.object(forKey: Keys.lastScheduledCleanup) as? Date
         lastScheduledSummary = defaults.string(forKey: Keys.lastScheduledSummary)
+        autoUpdate = defaults.object(forKey: Keys.autoUpdate) as? Bool ?? true
+        lastUpdateCheck = defaults.object(forKey: Keys.lastUpdateCheck) as? Date
     }
 
     var nextScheduledCleanup: Date? {
@@ -134,7 +140,7 @@ final class AppSettings: ObservableObject {
     }
 
     func resetAll() {
-        for key in [Keys.onboarded, Keys.scanRoots, Keys.devRoots, Keys.ignored, Keys.retention, Keys.menuBar, Keys.containers, Keys.appearance, Keys.deletePermanently, Keys.cleanupFrequency, Keys.cleanupScheduleMode, Keys.lastScheduledCleanup, Keys.lastScheduledSummary] {
+        for key in [Keys.onboarded, Keys.scanRoots, Keys.devRoots, Keys.ignored, Keys.retention, Keys.menuBar, Keys.containers, Keys.appearance, Keys.deletePermanently, Keys.cleanupFrequency, Keys.cleanupScheduleMode, Keys.lastScheduledCleanup, Keys.lastScheduledSummary, Keys.autoUpdate, Keys.lastUpdateCheck] {
             defaults.removeObject(forKey: key)
         }
         hasOnboarded = false
@@ -150,5 +156,7 @@ final class AppSettings: ObservableObject {
         cleanupScheduleMode = .ask
         lastScheduledCleanup = nil
         lastScheduledSummary = nil
+        autoUpdate = true
+        lastUpdateCheck = nil
     }
 }

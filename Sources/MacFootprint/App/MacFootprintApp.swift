@@ -86,6 +86,17 @@ struct ScanCommands: Commands {
     }
 }
 
+struct UpdateCommands: Commands {
+    @ObservedObject var updater: Updater
+
+    var body: some Commands {
+        CommandGroup(after: .appInfo) {
+            Button("Check for Updates…") { Task { await updater.check(.menu) } }
+                .disabled(updater.isBusy || !updater.canInstall)
+        }
+    }
+}
+
 @main
 struct MacFootprintApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
@@ -98,6 +109,7 @@ struct MacFootprintApp: App {
     private let battery: BatteryModel
     private let network: NetworkModel
     private let assistant: AssistantModel
+    private let updater: Updater
 
     init() {
         let settings = AppSettings()
@@ -111,10 +123,12 @@ struct MacFootprintApp: App {
         self.battery = BatteryModel(store: metrics, monitor: memory)
         self.network = NetworkModel(store: metrics)
         self.assistant = AssistantModel(model: model, monitor: memory, battery: battery, network: network, apps: apps)
+        self.updater = Updater(settings: settings)
         memory.start()
         scheduler.start()
         battery.start()
         network.start()
+        updater.start()
     }
 
     var body: some Scene {
@@ -128,10 +142,14 @@ struct MacFootprintApp: App {
                 .environmentObject(battery)
                 .environmentObject(network)
                 .environmentObject(assistant)
+                .environmentObject(updater)
                 .frame(minWidth: 820, minHeight: 600)
         }
         .windowToolbarStyle(.unified)
-        .commands { ScanCommands(model: model) }
+        .commands {
+            ScanCommands(model: model)
+            UpdateCommands(updater: updater)
+        }
 
         Settings {
             SettingsView()
