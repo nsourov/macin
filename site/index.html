@@ -5,12 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Macin · System intelligence for your Mac</title>
   <meta name="description" content="Macin is a free, open-source Mac app that watches storage, memory, performance, apps, battery and network, explains what it finds, and answers your questions with an AI that checks your Mac first.">
+  <meta name="keywords" content="Mac cleaner, Mac system monitor, free up space on Mac, Mac memory pressure, Mac battery drain, Mac storage cleaner, macOS menu bar monitor, open source Mac app, AI Mac assistant">
+  <meta name="author" content="Macin">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://macin.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Macin">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://macin.vercel.app/">
   <meta property="og:title" content="Macin · System intelligence for your Mac">
   <meta property="og:description" content="Storage, memory, performance, apps, battery and network, explained. Plus an AI that checks your Mac before it answers.">
-  <meta property="og:image" content="assets/home.jpg">
+  <meta property="og:image" content="https://macin.vercel.app/assets/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Macin: System intelligence for your Mac. Storage, memory, battery and network, explained.">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Macin · System intelligence for your Mac">
+  <meta name="twitter:description" content="Storage, memory, performance, apps, battery and network, explained. Plus an AI that checks your Mac before it answers.">
+  <meta name="twitter:image" content="https://macin.vercel.app/assets/og-image.jpg">
+  <meta name="twitter:image:alt" content="Macin: System intelligence for your Mac. Storage, memory, battery and network, explained.">
   <meta name="theme-color" content="#06060b">
+  <meta name="color-scheme" content="dark">
   <link rel="icon" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="preload" as="image" href="assets/home.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Macin",
+        "url": "https://macin.vercel.app/",
+        "description": "Macin is a free, open-source Mac app that watches storage, memory, performance, apps, battery and network, explains what it finds, and answers your questions with an AI that checks your Mac first.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "macOS 14 or later",
+        "image": "https://macin.vercel.app/assets/og-image.jpg",
+        "screenshot": [
+          "https://macin.vercel.app/assets/home.jpg",
+          "https://macin.vercel.app/assets/storage.jpg",
+          "https://macin.vercel.app/assets/memory.jpg",
+          "https://macin.vercel.app/assets/performance.jpg",
+          "https://macin.vercel.app/assets/applications.jpg",
+          "https://macin.vercel.app/assets/battery.jpg",
+          "https://macin.vercel.app/assets/network.jpg"
+        ],
+        "downloadUrl": "https://github.com/nsourov/macin/releases/latest/download/Macin.dmg",
+        "license": "https://github.com/nsourov/macin/blob/main/LICENSE",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "sameAs": ["https://github.com/nsourov/macin"]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Is Macin free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Macin is free and open source under the MIT license." } },
+          { "@type": "Question", "name": "Why does macOS warn me when I open it?", "acceptedAnswer": { "@type": "Answer", "text": "Macin isn't notarized by Apple yet, which needs a paid developer account. The app is open source, so you can read every line or build it yourself. To open it, go to System Settings → Privacy & Security and click Open Anyway. You only do this once." } },
+          { "@type": "Question", "name": "Which Macs are supported?", "acceptedAnswer": { "@type": "Answer", "text": "Macs running macOS 14 Sonoma or later. Apple's on-device AI needs macOS 26 with Apple Intelligence; otherwise you can connect your own model, or use Macin without AI." } },
+          { "@type": "Question", "name": "Is it safe to clean what Macin suggests?", "acceptedAnswer": { "@type": "Answer", "text": "Macin only suggests items from known categories like caches, logs and developer files, and it explains each one. You review everything, and items go to the Trash so you can restore them." } },
+          { "@type": "Question", "name": "Why does free space differ from other apps?", "acceptedAnswer": { "@type": "Answer", "text": "Macin shows the same number as Finder, which includes \"purgeable\" space macOS can free by itself. Tools like df only count space that is completely empty right now." } },
+          { "@type": "Question", "name": "Can the AI change or delete things on my Mac?", "acceptedAnswer": { "@type": "Answer", "text": "No. It can only use a fixed list of read-only checks. It can't run its own commands, change settings or delete anything." } },
+          { "@type": "Question", "name": "Does Macin download an AI model?", "acceptedAnswer": { "@type": "Answer", "text": "Never. It uses Apple's model built into macOS, or a model you already run, like Ollama or LM Studio." } }
+        ]
+      }
+    ]
+  }
+  </script>
   <script>document.documentElement.classList.add("js");</script>
   <style>
     @property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
