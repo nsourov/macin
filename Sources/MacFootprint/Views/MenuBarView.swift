@@ -230,6 +230,10 @@ struct MenuBarView: View {
                         .font(.caption.weight(.medium)).monospacedDigit()
                         .frame(width: 62, alignment: .trailing)
                 }
+                .contentShape(Rectangle())
+                .contextMenu {
+                    if let path = group.appPath { QuitMenuItems(appPath: path) }
+                }
             }
             if memory.groups.isEmpty {
                 Text("Reading…").font(.caption).foregroundStyle(.secondary)

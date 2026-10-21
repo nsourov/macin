@@ -227,6 +227,7 @@ struct ApplicationsView: View {
                     .hoverHighlight()
                 }
                 .buttonStyle(PressableStyle())
+                .contextMenu { QuitMenuItems(appPath: app.path) }
             }
         }
         .card(padding: 16)
@@ -256,6 +257,7 @@ struct AppRowButton<Label: View>: View {
             }
             .buttonStyle(PressableStyle())
             .help("See details")
+            .contextMenu { QuitMenuItems(appPath: appPath) }
             .sheet(item: $app) { app in
                 AppDetailSheet(app: app)
                     .environmentObject(apps)
@@ -330,6 +332,9 @@ struct AppDetailSheet: View {
             VStack(alignment: .trailing, spacing: 8) {
                 Button("Done") { dismiss() }.keyboardShortcut(.defaultAction)
                 HStack(spacing: 8) {
+                    if apps.canQuit(path: app.path) {
+                        QuitButton(name: app.name, appPath: app.path)
+                    }
                     Button { apps.open(app) } label: { Label("Open", systemImage: "arrow.up.forward.app") }
                     Button { apps.reveal(app.path) } label: { Label("Show in Finder", systemImage: "folder") }
                     if canUninstall {

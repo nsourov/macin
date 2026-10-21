@@ -115,6 +115,29 @@ final class ApplicationsModel: ObservableObject {
         for running in runningApps(app) { running.terminate() }
     }
 
+    func runningApps(atPath path: String) -> [NSRunningApplication] {
+        let target = URL(fileURLWithPath: path).standardizedFileURL.path
+        return NSWorkspace.shared.runningApplications.filter { $0.bundleURL?.standardizedFileURL.path == target }
+    }
+
+    func canQuit(path: String) -> Bool {
+        let target = URL(fileURLWithPath: path).standardizedFileURL.path
+        guard !target.hasPrefix("/System/Library/CoreServices/"),
+              target != Bundle.main.bundleURL.standardizedFileURL.path else { return false }
+        return runningApps(atPath: target).contains { $0.processIdentifier != ProcessInfo.processInfo.processIdentifier }
+    }
+
+    func quit(path: String, force: Bool) {
+        guard canQuit(path: path) else { return }
+        for running in runningApps(atPath: path) where running.processIdentifier != ProcessInfo.processInfo.processIdentifier {
+            if force { running.forceTerminate() } else { running.terminate() }
+        }
+        Task {
+            try? await Task.sleep(for: .seconds(2))
+            refreshRunning()
+        }
+    }
+
     func uninstaller(mode: RemovalMode) -> AppUninstaller {
         AppUninstaller(trashMover: WorkspaceTrashMover(), mode: mode) { app in
             NSWorkspace.shared.runningApplications.contains { $0.bundleURL?.standardizedFileURL.path == app.path }

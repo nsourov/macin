@@ -411,6 +411,7 @@ struct MemoryAppsList: View {
     @State private var grouped = true
     @State private var filter: MemoryGroupKind?
     @State private var sortOrder = [KeyPathComparator(\MemoryRow.bytes, order: .reverse)]
+    @State private var selection: Set<MemoryRow.ID> = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -463,7 +464,8 @@ struct MemoryAppsList: View {
     }
 
     private var table: some View {
-        Table(rows, sortOrder: $sortOrder) {
+        let rows = rows
+        return Table(rows, selection: $selection, sortOrder: $sortOrder) {
             TableColumn("Name", value: \.name) { row in
                 HStack(spacing: 8) {
                     MemoryAppIcon(appPath: row.appPath, size: 20)
@@ -486,6 +488,11 @@ struct MemoryAppsList: View {
                 TrendBadge(trend: row.trend).font(.callout)
             }
             .width(120)
+        }
+        .contextMenu(forSelectionType: MemoryRow.ID.self) { ids in
+            if ids.count == 1, let path = rows.first(where: { ids.contains($0.id) })?.appPath {
+                QuitMenuItems(appPath: path)
+            }
         }
     }
 }

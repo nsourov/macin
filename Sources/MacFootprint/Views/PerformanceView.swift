@@ -444,6 +444,7 @@ struct PerformanceProcessList: View {
     @State private var search = ""
     @State private var grouped = true
     @State private var sortOrder = [KeyPathComparator(\CPURow.cpu, order: .reverse)]
+    @State private var selection: Set<CPURow.ID> = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -460,7 +461,7 @@ struct PerformanceProcessList: View {
                 Spacer()
                 Toggle("Group by app", isOn: $grouped).toggleStyle(.switch).controlSize(.small)
             }
-            Table(rows, sortOrder: $sortOrder) {
+            Table(rows, selection: $selection, sortOrder: $sortOrder) {
                 TableColumn("Name", value: \.name) { row in
                     HStack(spacing: 8) {
                         MemoryAppIcon(appPath: row.appPath, size: 20)
@@ -483,6 +484,11 @@ struct PerformanceProcessList: View {
                     Text(MemoryFormat.bytes(row.bytes)).monospacedDigit().foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 .width(100)
+            }
+            .contextMenu(forSelectionType: CPURow.ID.self) { ids in
+                if ids.count == 1, let path = rows.first(where: { ids.contains($0.id) })?.appPath {
+                    QuitMenuItems(appPath: path)
+                }
             }
             Text("Processor: 100% means one full core, like in Activity Monitor. Your Mac has \(SystemCPU.logicalCores) cores, so the most possible is \(SystemCPU.logicalCores * 100)%.")
                 .font(.caption).foregroundStyle(.secondary)
